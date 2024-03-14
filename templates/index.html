@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <link
+      rel="apple-touch-icon"
+      sizes="180x180"
+      href="favicon/apple-touch-icon.png"
+    />
+    <link
+      rel="icon"
+      type="image/png"
+      sizes="32x32"
+      href="favicon/favicon-32x32.png"
+    />
+    <link
+      rel="icon"
+      type="image/png"
+      sizes="16x16"
+      href="favicon/favicon-16x16.png"
+    />
+    <link rel="manifest" href="favicon/site.webmanifest" />
+    <link
+      rel="mask-icon"
+      href="{{ url_for('static', filename='lock png.png') }}"
+      color="#5bbad5"
+    />
+    <meta name="msapplication-TileColor" content="#da532c" />
+    <meta name="theme-color" content="#ffffff" />
+    <meta name="mobile-web-app-capable" content="yes" />
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='style.css') }}"
+    />
+    <title>Door Lock</title>
+  </head>
+  <body>
+    <h1>Room Door</h1>
+    <form action="/submit" method="post">
+      <input type="password" id="password" name="password" />
+      <div class="keypad">
+        <button type="button" onclick="addNumber(1)">1</button>
+        <button type="button" onclick="addNumber(2)">2</button>
+        <button type="button" onclick="addNumber(3)">3</button>
+        <button type="button" onclick="addNumber(4)">4</button>
+        <button type="button" onclick="addNumber(5)">5</button>
+        <button type="button" onclick="addNumber(6)">6</button>
+        <button type="button" onclick="addNumber(7)">7</button>
+        <button type="button" onclick="addNumber(8)">8</button>
+        <button type="button" onclick="addNumber(9)">9</button>
+        <button type="button" onclick="addNumber('x')">x</button>
+        <button type="button" onclick="addNumber(0)">0</button>
+        <button type="submit">✓</button>
+      </div>
+    </form>
+    <button class="dark-mode-btn" onclick="toggleDarkMode()">☽</button>
+    <script src="{{ url_for('static', filename='app.js') }}"></script>
+  </body>
+</html>
