@@ -16,9 +16,9 @@ def submit_number():
         # Run your Python script here
         try:
             subprocess.run(['python3', 'doorlock.py'], check=True)
-            return "Correct number entered. Script executed."
+            return render_template('index.html')
         except subprocess.CalledProcessError:
-            return "Failed to execute script."
+            return render_template('index.html')
     else:
         return "Incorrect number. Try again."
 
