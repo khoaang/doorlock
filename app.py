@@ -15,7 +15,8 @@ def submit_number():
     if number == "2222":
         # Run your Python script here
         try:
-            subprocess.run(['python3', 'doorlock.py'], check=True)
+            subprocess.run(['python3', 'doorlock/doorlock.py'], check=True)
+            print("running doorlock.py...")
             return render_template('index.html')
         except subprocess.CalledProcessError:
             return render_template('index.html')
