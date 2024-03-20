@@ -1,0 +1,135 @@
+/* App.css */
+body {
+  font-family: 'Helvetica Neue', Helvetica, sans-serif;
+  background-color: #f5f5f5; /* Light gray background */
+  margin: 0;
+  padding: 20px;
+  color: #333333; /* Dark gray text color */
+}
+
+.App {
+  max-width: 1000px;
+  margin: 20px auto;
+  background: #ffffff; /* White card background */
+  padding: 20px;
+  border-radius: 8px;
+}
+
+h1, h2 {
+  color: #333333; /* Dark gray headers */
+  font-weight: bold;
+}
+
+ul {
+  list-style: none;
+  padding: 0;
+}
+
+li {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: #f5f5f5; /* Light gray list item background */
+  margin-bottom: 16px;
+  padding: 16px;
+  border-radius: 8px;
+}
+li .info {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-evenly;
+}
+
+.name {
+  color: #333333; /* Dark gray name color */
+  font-size: 18px;
+  margin-bottom: 10px;
+}
+
+.device-form {
+  max-width: 500px;
+}
+
+.form-group {
+  display: flex;
+  align-items: center;
+  margin-bottom: 16px;
+}
+
+.input-field,
+.emoji-field {
+  margin: 5px;
+  padding: 12px;
+  font-size: 16px;
+  background: #f5f5f5; /* Light gray input background */
+  color: #333333; /* Dark gray text color */
+  border: none;
+  border-radius: 8px;
+  box-sizing: border-box;
+  font-weight: bold;
+}
+
+.input-field:focus,
+.emoji-field:focus {
+  outline: none;
+}
+
+.submit-button,
+button {
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  background-color: #0366d6; /* GitHub blue button background */
+  color: #ffffff; /* White text color */
+  font-weight: bold;
+  border: none;
+  border-radius: 8px;
+  padding: 12px 20px;
+}
+
+.submit-button:hover,
+button:hover {
+  background-color: #0366d6; /* GitHub blue button hover background */
+}
+
+.remove-button {
+  background-color: #d73a49; /* GitHub red remove button background */
+  color: #ffffff; /* White text color */
+}
+
+.remove-button:hover {
+  background-color: #cb2431; /* GitHub red remove button hover background */
+}
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.75);
+}
+
+.modal-content {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: #fff;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  max-width: 400px;
+  width: 100%;
+  max-height: 80vh;
+  overflow-y: auto;
+}
+
+.scriptContent {
+  display: flex;
+  flex-direction: row ;
+  margin-bottom: 10px;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  margin-bottom: 5px;
+}
