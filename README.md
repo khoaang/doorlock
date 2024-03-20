@@ -40,7 +40,6 @@ Transform your Raspberry Pi into a smart door locking system with a few easy ste
     
 5.  Launch the Flask app:
     
-    bashCopy code
     
     ```bash
     python3 app.py
