@@ -26,21 +26,25 @@ Transform your Raspberry Pi into a smart door locking system with a few easy ste
 
 1.  Clone the Doorlock repository to your Raspberry Pi:
     
+    
+    ```bash
+    git clone https://github.com/khoaang/doorlock/
+    ```
+    
+3.  Change to the project directory:
+    
+    
+    ```bash
+    cd doorlock
+    ```
+    
+5.  Launch the Flask app:
+    
     bashCopy code
     
-    `git clone https://github.com/khoaang/doorlock/`
-    
-2.  Change to the project directory:
-    
-    bashCopy code
-    
-    `cd doorlock`
-    
-3.  Launch the Flask app:
-    
-    bashCopy code
-    
-    `python3 app.py`
+    ```bash
+    python3 app.py
+    ```
     
 
 Navigate to `http://<your-raspberry-pi-IP-address>:5000` on your browser, and you're all set to control your door lock securely.
