@@ -24,11 +24,11 @@ function DevicesList({ devices, fetchDevices }) {
     // Function to check if the device is online based on last ping time
     const isDeviceOnline = (lastPingTime) => {
       const currentTime = new Date().getTime();
-      // Convert lastPingTime from seconds to milliseconds
+      // Convert lastPingTime (python time) from seconds to milliseconds
       const lastPingTimeMs = lastPingTime * 1000;
       console.log(currentTime, lastPingTimeMs);
       return currentTime - lastPingTimeMs < 20000;
-    };
+    };git
 
     // Update online status based on last ping time of each device
     const updatedOnlineStatus = {};
