@@ -12,7 +12,7 @@ doorLock is an open-source platform designed to turn Raspberry Pi devices into s
 
 ## How It Works 🛠️
 
-1. **Setup doorLock:** Install the doorLock server on your Raspberry Pi device.
+1. **Setup doorLock:** Start the doorLock server on your local computer.
 2. **Access the Web Interface:** Open a web browser and navigate to the doorLock server's address.
 3. **Manage Devices:** Add new IoT devices by entering their MAC addresses and names.
 4. **Upload Scripts:** Upload scripts to automate tasks on individual devices.
