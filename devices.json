@@ -1,0 +1,11 @@
+[
+    {
+        "mac_address": "00:1B:44:11:3A:B7",
+        "name": "Test Device",
+        "emoji": "\ud83d\udcf1",
+        "scripts": {
+            "script1": "print('Hello World')"
+        },
+        "last_ping_time": 0.0
+    }
+]

@@ -7,7 +7,29 @@ function AddDeviceForm({ fetchDevices }) {
   const [selectedEmoji, setSelectedEmoji] = useState("📱"); // Default emoji
 
   // Predefined set of emojis to choose from
-  const emojiOptions = ["📱", "💻", "🖥", "🔌", "🖨", "🎮"];
+  const emojiOptions = [
+    "📱",
+    "💻",
+    "🖥",
+    "🔌",
+    "🖨",
+    "🎮",
+    "🔋",
+    "💡",
+    "🔦",
+    "📡",
+    "🕹️",
+    "🌡️",
+    "⌚",
+    "🔒",
+    "🔑",
+    "🚪",
+    "🏠",
+    "🌐",
+    "🔧",
+    "🛠️",
+    "⚙️",
+  ];
 
   const handleSubmit = (e) => {
     e.preventDefault();
