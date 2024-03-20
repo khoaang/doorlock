@@ -1,58 +1,101 @@
-# doorLock 🚪🔒
+# DoorLock 🚪🔒
 
-doorLock is an open-source platform designed to turn Raspberry Pi devices into smart home automation hubs. It provides a user-friendly web interface for managing IoT devices and running scripts to automate various tasks.
+Welcome to DoorLock, a modern and efficient way to manage your IoT devices. This project allows you to add devices, upload scripts to them, and manage a queue of scripts to be executed on each device.
 
-## Features 🌟
+## Features 🚀
 
-- **Device Management:** Easily add, remove, and configure IoT devices from a centralized dashboard.
-- **Script Execution:** Upload and execute scripts on individual devices to automate actions like controlling lights, locks, or sensors.
-- **Cross-Platform Compatibility:** Works seamlessly on Raspberry Pi devices, enabling users to create their own smart home automation systems.
-- **User-Friendly Interface:** Intuitive web interface for managing devices and scripts, suitable for both beginners and advanced users.
-- **Customizable:** Extendable architecture allows users to add custom scripts and integrations tailored to their specific needs.
+- **Device Management**: Add and remove devices with ease. Each device is identified by its MAC address. 📱💻
+- **Script Management**: Upload scripts to devices and manage a queue of scripts to be executed on each device. 📄🔄
+- **Dark Mode**: A sleek dark mode for those late-night coding sessions. 🌙💡
+- **Real-time Updates**: The state of devices and scripts is updated in real-time. 🕒🔄
 
-## How It Works 🛠️
+## Getting Started 🏁
 
-1. **Setup doorLock:** Start the doorLock server on your local computer.
-2. **Access the Web Interface:** Open a web browser and navigate to the doorLock server's address.
-3. **Manage Devices:** Add new IoT devices by entering their MAC addresses and names.
-4. **Upload Scripts:** Upload scripts to automate tasks on individual devices.
-5. **Execute Scripts:** Run uploaded scripts to trigger actions on the connected devices.
+### Prerequisites
 
-## Hosting Requirements 🖥️
+- Node.js
+- Python
+- Flask
+- React
+- Raspberry Pi
 
-- Raspberry Pi running Raspbian or any compatible operating system.
-- Python installed on the Raspberry Pi.
-- Access to the internet for fetching dependencies and updates.
+### Installation
 
-## Installation Steps 🚀
+1. Clone the repo
+   ```
+   git clone https://github.com/khoaang/doorlock.git
+   ```
+2. Install NPM packages
+   ```
+   npm install
+   ```
+3. Install Python packages
+   ```
+   pip install -r requirements.txt
+   ```
 
-1. **Clone the Repository:** `git clone https://github.com/khoaang/doorLock.git`
-2. **Navigate to the Project Directory:** `cd doorLock`
-3. **Install Dependencies:** `pip install -r requirements.txt`
-4. **Run the Server:** `python app.py`
-5. **Access the Web Interface:** Open a web browser and go to `http://localhost:5000` (or the appropriate IP address of your Raspberry Pi).
+### Raspberry Pi Setup 🍓
 
-## How to Prepare Raspberry Pi for Script Execution 💡
+1. Transfer the `pi.py` script to your Raspberry Pi.
+2. Run the script using Python 3:
+   ```
+   python3 pi.py
+   ```
+3. To have the script run on startup, add a cron job:
+   - Open the crontab file:
+     ```
+     crontab -e
+     ```
+   - Add the following line to the end of the file:
+     ```
+     @reboot python3 /path/to/pi.py &
+     ```
+   - Save and close the file. The script will now run on startup.
 
-1. **Ensure Python is Installed:** Check if Python is installed on your Raspberry Pi by running `python --version` in the terminal. If not installed, follow [official documentation](https://www.python.org/downloads/) to install Python.
-2. **Install Required Libraries:** Install necessary libraries using `pip install -r requirements.txt` in the project directory.
-3. **Configure Environment:** Set up any environment variables required for your scripts or the doorLock application.
-4. **Run Scripts:** Use the doorLock web interface to upload and execute scripts on your Raspberry Pi devices.
+## Usage 🎮
+
+Start the Flask server:
+
+```
+python app.py
+```
+
+Start the React app:
+
+```
+npm start
+```
 
 ## Contributing 🤝
 
-We welcome contributions from the open-source community to improve and enhance doorLock. Here's how you can contribute:
+Contributions are what make the open-source community such an amazing place to learn, inspire, and create. Any contributions you make are **greatly appreciated**.
 
-- **Bug Reports:** Report any bugs or issues you encounter while using doorLock.
-- **Feature Requests:** Suggest new features or improvements to enhance the functionality of doorLock.
-- **Pull Requests:** Submit pull requests with fixes, enhancements, or new features.
+1. Fork the Project
+2. Create your Feature Branch (`git checkout -b feature/AmazingFeature`)
+3. Commit your Changes (`git commit -m 'Add some AmazingFeature'`)
+4. Push to the Branch (`git push origin feature/AmazingFeature`)
+5. Open a Pull Request
 
-To contribute, fork the repository, make your changes, and submit a pull request. Be sure to follow the contribution guidelines outlined in the project's repository.
+## License 📄
 
-## License 📜
+Distributed under the MIT License. See `LICENSE` for more information.
 
-doorLock is licensed under the MIT License. See the [LICENSE](LICENSE) file for more details.
+## Contact 📬
 
----
+Your Name - your_email@gmail.com
 
-**Note:** doorLock is a project created for educational and experimental purposes. Use it responsibly and ensure that your IoT devices are secure and properly configured to avoid any potential risks. 🧠💡
+Project Link: [https://github.com/khoaang/doorlock](https://github.com/khoaang/doorlock)
+
+## Acknowledgements 🎉
+
+- [React](https://reactjs.org/)
+- [Flask](https://flask.palletsprojects.com/)
+- [axios](https://github.com/axios/axios)
+- [Socket.IO](https://socket.io/)
+- [CORS](https://developer.mozilla.org/en-US/docs/Web/HTTP/CORS)
+
+Enjoy your journey with DoorLock! 🎈🎈🎈
+
+## License 📄
+
+DoorLock is distributed under the MIT License, which allows you to use, modify, and distribute the software for both commercial and non-commercial purposes. See the [LICENSE](LICENSE) file for more information.
