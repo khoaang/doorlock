@@ -99,7 +99,7 @@ function DevicesList({ devices, fetchDevices }) {
   const fetchDeviceScripts = async (mac_address) => {
     try {
       const response = await axios.get(`/api/fetch-scripts/${mac_address}`);
-      setAvailableScripts(response.data); // Assuming the response directly contains the scripts
+      setAvailableScripts(response.data);
     } catch (error) {
       console.error("Error fetching scripts:", error);
     }

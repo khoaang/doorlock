@@ -143,7 +143,6 @@ def update_last_ping_time(mac_address: str) -> None:
         save_devices(devices)
 
 
-# Add this function to fetch last ping time of a device
 def get_last_ping_time(mac_address: str) -> float:
     devices = load_devices()
     if mac_address in devices:
