@@ -78,7 +78,7 @@ Contributions are what make the open-source community such an amazing place to l
 
 ## License 📄
 
-Distributed under the MIT License. See `LICENSE` for more information.
+DoorLock is distributed under the MIT License, which allows you to use, modify, and distribute the software for both commercial and non-commercial purposes. See the [LICENSE](LICENSE) file for more information.
 
 ## Contact 📬
 
@@ -95,7 +95,3 @@ Project Link: [https://github.com/khoaang/doorlock](https://github.com/khoaang/d
 - [CORS](https://developer.mozilla.org/en-US/docs/Web/HTTP/CORS)
 
 Enjoy your journey with DoorLock! 🎈🎈🎈
-
-## License 📄
-
-DoorLock is distributed under the MIT License, which allows you to use, modify, and distribute the software for both commercial and non-commercial purposes. See the [LICENSE](LICENSE) file for more information.
