@@ -1,3 +1,3 @@
-flask
-flask_cors
-gpiozero
+Flask
+flask-cors
+requests
