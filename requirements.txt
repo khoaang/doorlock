@@ -1,4 +1,4 @@
-Flask
-flask-cors
-requests
-nmap
+flask
+flask_cors
+flask_socketio
+werkzeug
