@@ -1,0 +1,75 @@
+/* Dark mode styles */
+.dark-mode {
+  background-color: #121212; /* Darker background */
+  color: #e0e0e0; /* Lighter text color */
+}
+
+.dark-mode .App {
+  background: #242424; /* Darker card background */
+}
+
+.dark-mode h1, .dark-mode h2 {
+  color: #ffffff; /* Light text color for headers */
+}
+
+.dark-mode ul {
+  /* If you need any specific changes for lists in dark mode */
+}
+
+.dark-mode li {
+  background-color: #1e1e1e; /* Darker list item background */
+  color: #e0e0e0; /* Ensure text color contrasts well against the dark background */
+}
+
+.dark-mode li .info {
+  /* If you need any specific changes for info in dark mode */
+}
+
+.dark-mode li span {
+  /* If you need any specific changes for spans in dark mode */
+}
+
+.dark-mode .name {
+  color: #e0e0e0; /* Lighter name color */
+}
+
+.dark-mode .device-form, .dark-mode .form-group {
+  /* If you need any specific changes for forms in dark mode */
+}
+
+.dark-mode .input-field, .dark-mode .emoji-field {
+  background: #333333; /* Darker input background */
+  color: #e0e0e0; /* Lighter text color */
+  border: 1px solid #555; /* Visible border in dark mode */
+}
+
+.dark-mode .submit-button, .dark-mode button {
+  background-color: #0056b3; /* Slightly darker blue for buttons */
+  color: #ffffff;
+}
+
+.dark-mode .submit-button:hover, .dark-mode button:hover {
+  background-color: #004494; /* Darken the button on hover for better contrast */
+}
+
+.dark-mode .remove-button {
+  background-color: #a83232; /* Darker red for remove button */
+}
+
+.dark-mode .remove-button:hover {
+  background-color: #922727; /* Darken the remove button on hover */
+}
+
+.dark-mode .modal-overlay {
+  /* Adjust if needed for dark mode */
+}
+
+.dark-mode .modal-content {
+  background-color: #242424; /* Dark background for modal */
+  color: #e0e0e0; /* Lighter text for readability */
+}
+
+.dark-mode .scriptContent {
+  background-color: #333333; /* Darker background for script content */
+  color: #e0e0e0; /* Lighter text color */
+}

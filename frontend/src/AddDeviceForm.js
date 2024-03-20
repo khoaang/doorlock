@@ -18,11 +18,15 @@ function AddDeviceForm({ fetchDevices }) {
         emoji: selectedEmoji,
       })
       .then((response) => {
-        alert("Device added successfully");
-        setMacAddress("");
-        setName("");
-        setSelectedEmoji("📱"); // Reset to default emoji after submission
-        fetchDevices(); // Assuming fetchDevices updates the parent component's state
+        if (response.data.success) {
+          alert("Device added successfully");
+          setMacAddress("");
+          setName("");
+          setSelectedEmoji("📱"); // Reset to default emoji after submission
+          fetchDevices(); // Fetch the updated devices list
+        } else {
+          alert(response.data.error);
+        }
       })
       .catch((error) =>
         console.error("There was an error adding the device:", error)
@@ -51,9 +55,6 @@ function AddDeviceForm({ fetchDevices }) {
           onChange={(e) => setName(e.target.value)}
           placeholder="Enter Name"
         />
-      </div>
-      <div className="form-group">
-        <label>MAC Address:</label>
         <input
           className="input-field"
           type="text"
@@ -62,10 +63,10 @@ function AddDeviceForm({ fetchDevices }) {
           placeholder="Enter MAC Address"
           required
         />
+        <button className="submit-button" type="submit">
+          +
+        </button>
       </div>
-      <button className="submit-button" type="submit">
-        Add Device
-      </button>
     </form>
   );
 }

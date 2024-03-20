@@ -1,122 +1,160 @@
 import json
-import subprocess
-from typing import List, Dict, Union
+import time
+from typing import Dict, List
+
+DEVICES_FILE_PATH = 'devices.json'
+SCRIPT_QUEUE_FILE_PATH = 'script_queue.json'
 
 
 class Device:
-    def __init__(self, mac_address: str, name: str = "Unknown", emoji: str = "", scripts: List[Dict[str, str]] = None):
+    def __init__(self, mac_address: str, name: str = "Unknown", emoji: str = "", scripts: Dict[str, str] = None, last_ping_time: float = 0.0):
         self.mac_address = mac_address
         self.name = name
         self.emoji = emoji
-        self.scripts = scripts if scripts else []
+        self.scripts = scripts if scripts else {}
+        self.last_ping_time = last_ping_time
 
-    def to_dict(self) -> Dict[str, Union[str, List[str]]]:
+    def to_dict(self) -> Dict:
         return {
             'mac_address': self.mac_address,
             'name': self.name,
             'emoji': self.emoji,
-            'scripts': self.scripts
+            'scripts': self.scripts,
+            'last_ping_time': self.last_ping_time
         }
 
-    @classmethod
-    def from_dict(cls, data: Dict[str, Union[str, List[str]]]) -> 'Device':
-        return cls(data['mac_address'], data['name'], data['emoji'], data['scripts'])
-
     def add_script(self, script_name: str, script_content: str) -> None:
-        self.scripts.append({"name": script_name, "content": script_content})
+        """Adds or updates a script for this device."""
+        self.scripts[script_name] = script_content
 
-    def remove_script(self, script_name: str) -> None:
-        self.scripts = [
-            script for script in self.scripts if script['name'] != script_name]
+    def remove_script(self, script_name: str) -> bool:
+        """Removes a script from this device if it exists."""
+        if script_name in self.scripts:
+            del self.scripts[script_name]
+            return True
+        return False
+
+    @classmethod
+    def from_dict(cls, data: Dict) -> 'Device':
+        return cls(data['mac_address'], data.get('name', 'Unknown'), data.get('emoji', ''), data.get('scripts', {}), data.get('last_ping_time', 0.0))
 
 
-DEVICES_FILE_PATH = 'devices.json'
-
-
-def init_devices() -> None:
+def load_devices() -> Dict[str, Device]:
     try:
         with open(DEVICES_FILE_PATH, 'r') as file:
             devices_data = json.load(file)
-            if not devices_data:  # If the file is empty or contains no devices
-                create_test_device()
+        return {data['mac_address']: Device.from_dict(data) for data in devices_data}
     except (FileNotFoundError, json.JSONDecodeError):
-        create_test_device()
+        return {}
 
 
-def load_devices() -> List[Device]:
-    init_devices()
-    with open(DEVICES_FILE_PATH, 'r') as file:
-        devices_data = json.load(file)
-        return [Device.from_dict(device_data) for device_data in devices_data]
-
-
-def save_devices(devices: List[Device]) -> None:
-    devices_data = [device.to_dict() for device in devices]
+def save_devices(devices: Dict[str, Device]) -> None:
     with open(DEVICES_FILE_PATH, 'w') as file:
-        json.dump(devices_data, file, indent=4)
+        json.dump([device.to_dict()
+                   for device in devices.values()], file, indent=4)
 
 
-def add_device(mac_address: str, name: str = "Unknown", emoji: str = "") -> None:
+def add_device(mac_address: str, name: str = "Unknown", emoji: str = "", scripts: Dict[str, str] = None) -> bool:
     devices = load_devices()
-    if not any(device.mac_address == mac_address for device in devices):
-        devices.append(Device(mac_address, name, emoji))
+    if mac_address not in devices:
+        devices[mac_address] = Device(mac_address, name, emoji, scripts)
+        save_devices(devices)
+        return True
+    else:
+        print("Device already exists.")
+        return False
+
+
+# Define fetch_scripts_for_device function here
+def fetch_scripts_for_device(mac_address: str) -> Dict[str, str]:
+    devices = load_devices()
+    if mac_address in devices:
+        return devices[mac_address].scripts
+    else:
+        print(f"Device with MAC {mac_address} not found.")
+        return {}
+
+
+def remove_device(mac_address: str) -> bool:
+    devices = load_devices()
+    if mac_address in devices:
+        del devices[mac_address]
+        save_devices(devices)
+        return True
+    return False
+
+
+def add_script_to_device(mac_address: str, script_name: str, script_content: str):
+    print(f"Adding script {script_name} to device {mac_address}")
+    devices = load_devices()
+    if mac_address in devices:
+        device = devices[mac_address]
+        device.add_script(script_name, script_content)
+        save_devices(devices)
+    else:
+        print(f"Device with MAC {mac_address} not found.")
+
+
+def remove_script_from_device(mac_address: str, script_name: str):
+    devices = load_devices()
+    if mac_address in devices:
+        device = devices[mac_address]
+        device.remove_script(script_name)
+        save_devices(devices)
+    else:
+        print(f"Device with MAC {mac_address} not found.")
+
+
+def load_script_queue() -> Dict[str, List[Dict[str, str]]]:
+    try:
+        with open(SCRIPT_QUEUE_FILE_PATH, 'r') as file:
+            return json.load(file)
+    except (FileNotFoundError, json.JSONDecodeError):
+        return {}
+
+
+def save_script_queue(script_queue: Dict[str, List[Dict[str, str]]]) -> None:
+    with open(SCRIPT_QUEUE_FILE_PATH, 'w') as file:
+        json.dump(script_queue, file, indent=4)
+
+
+def enqueue_script(mac_address: str, script_name: str) -> None:
+    script_queue = load_script_queue()
+    if mac_address not in script_queue:
+        script_queue[mac_address] = []
+    script_queue[mac_address].append(
+        {'name': script_name, 'content': fetch_scripts_for_device(mac_address)[script_name]})
+    save_script_queue(script_queue)
+
+
+def dequeue_script(mac_address: str, script_name: str) -> None:
+    script_queue = load_script_queue()
+    if mac_address in script_queue:
+        script_queue[mac_address] = [
+            script for script in script_queue[mac_address] if script['name'] != script_name]
+        save_script_queue(script_queue)
+
+
+def update_last_ping_time(mac_address: str) -> None:
+    """Update the last ping time for a device."""
+    devices = load_devices()
+    if mac_address in devices:
+        devices[mac_address].last_ping_time = time.time()
         save_devices(devices)
 
 
-def remove_device(device_id: str) -> bool:
+# Add this function to fetch last ping time of a device
+def get_last_ping_time(mac_address: str) -> float:
     devices = load_devices()
-    for device in devices:
-        if device.mac_address == device_id:
-            devices.remove(device)
-            save_devices(devices)
-            return True
-    return False
+    if mac_address in devices:
+        return devices[mac_address].last_ping_time
+    return 0.0
 
 
-def list_devices() -> List[Device]:
-    return load_devices()
-
-
-def upload_script_to_device(device_id: str, script_name: str, script_content: str) -> bool:
+def example_usage():
+    add_device("00:1B:44:11:3A:B7", "Test Device", "📱",
+               {"script1": "print('Hello World')"})
     devices = load_devices()
-    for device in devices:
-        if device.mac_address == device_id:
-            device.add_script(script_name, script_content)
-            save_devices(devices)
-            return True
-    return False
 
 
-def execute_script_on_device(device_id: str, script_name: str) -> bool:
-    devices = load_devices()
-    for device in devices:
-        if device.mac_address == device_id:
-            for script in device.scripts:
-                if script['name'] == script_name:
-                    script_content = script['content']
-                    # Execute the script content on the device
-                    try:
-                        # Assuming the script content is a Python script
-                        # You may adjust this command based on the type of script content
-                        subprocess.run(['python', '-c', script_content], check=True)
-                        print(f"Script '{script_name}' executed on device {device_id}")
-                        return True
-                    except subprocess.CalledProcessError as e:
-                        print(f"Error executing script '{script_name}' on device {device_id}: {e}")
-                        return False
-            else:
-                print(f"Script '{script_name}' not found on device {device_id}")
-                return False
-    print(f"Device {device_id} not found")
-    return False
-
-
-def create_test_device() -> None:
-    default_script = generate_default_script()
-    test_device = Device('00:1B:44:11:3A:B7',
-                         'Test Device', '📱', [default_script])
-    save_devices([test_device])
-
-
-def generate_default_script() -> Dict[str, str]:
-    return {"name": "default_script", "content": 'print("hello world")'}
+example_usage()

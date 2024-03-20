@@ -56,4 +56,3 @@ doorLock is licensed under the MIT License. See the [LICENSE](LICENSE) file for 
 ---
 
 **Note:** doorLock is a project created for educational and experimental purposes. Use it responsibly and ensure that your IoT devices are secure and properly configured to avoid any potential risks. 🧠💡
-```

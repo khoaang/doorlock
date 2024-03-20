@@ -1,13 +1,1 @@
-[
-    {
-        "mac_address": "00:1B:44:11:3A:B7",
-        "name": "Test Device",
-        "emoji": "\ud83d\udcf1",
-        "scripts": [
-            {
-                "name": "default_script",
-                "content": "print(\"hello world\")"
-            }
-        ]
-    }
-]
+[]

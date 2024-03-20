@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import Modal from "react-modal";
-
+Modal.setAppElement("#root");
 function ScriptComponent({ scriptName, onDelete, onRun }) {
   return (
     <div className="scriptContent">
@@ -17,6 +17,28 @@ function DevicesList({ devices, fetchDevices }) {
   const [selectedFile, setSelectedFile] = useState(null);
   const [modalIsOpen, setModalIsOpen] = useState(false);
   const [availableScripts, setAvailableScripts] = useState([]);
+  // Additional state to track online status of devices
+  const [onlineStatus, setOnlineStatus] = useState({});
+
+  useEffect(() => {
+    // Function to check if the device is online based on last ping time
+    const isDeviceOnline = (lastPingTime) => {
+      const currentTime = new Date().getTime();
+      // Convert lastPingTime from seconds to milliseconds
+      const lastPingTimeMs = lastPingTime * 1000;
+      console.log(currentTime, lastPingTimeMs);
+      return currentTime - lastPingTimeMs < 20000;
+    };
+
+    // Update online status based on last ping time of each device
+    const updatedOnlineStatus = {};
+    devices.forEach((device) => {
+      updatedOnlineStatus[device.mac_address] = isDeviceOnline(
+        device.last_ping_time
+      );
+    });
+    setOnlineStatus(updatedOnlineStatus);
+  }, [devices]);
 
   useEffect(() => {
     if (selectedDevice) {
@@ -35,23 +57,16 @@ function DevicesList({ devices, fetchDevices }) {
     }
 
     const formData = new FormData();
-    formData.append("script", selectedFile);
-    formData.append("scriptName", selectedFile.name); // Include script name in the form data
+    formData.append("file", selectedFile); // Ensure backend handles "file" key
 
     try {
-      await axios.post(
-        `/api/upload-script/${selectedDevice.mac_address}`, // Assuming there's a separate endpoint for uploading scripts
-        formData,
-        {
-          headers: {
-            "Content-Type": "multipart/form-data",
-          },
-        }
-      );
-      alert("Script uploaded successfully.");
-      // Refetch devices after script upload
-      fetchDevices();
-      setModalIsOpen(false);
+      await axios.post(`/api/scripts/${selectedDevice.mac_address}`, formData, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      });
+      // Refetch device scripts to update the modal content
+      await fetchDeviceScripts(selectedDevice.mac_address);
     } catch (error) {
       console.error("Error uploading script:", error);
       alert("Failed to upload the script.");
@@ -63,16 +78,16 @@ function DevicesList({ devices, fetchDevices }) {
       axios
         .delete(`/api/devices/${deviceId}`)
         .then(() => {
-          alert("Device removed successfully");
           fetchDevices(); // Re-fetch the devices list
         })
         .catch((error) => console.error("Error removing device:", error));
     }
   };
 
-  const openModal = (device) => {
+  const openModal = async (device) => {
     setSelectedDevice(device);
     setModalIsOpen(true);
+    await fetchDeviceScripts(device.mac_address);
   };
 
   const closeModal = () => {
@@ -81,6 +96,57 @@ function DevicesList({ devices, fetchDevices }) {
     setModalIsOpen(false);
   };
 
+  const fetchDeviceScripts = async (mac_address) => {
+    try {
+      const response = await axios.get(`/api/fetch-scripts/${mac_address}`);
+      setAvailableScripts(response.data); // Assuming the response directly contains the scripts
+    } catch (error) {
+      console.error("Error fetching scripts:", error);
+    }
+  };
+
+  const runScript = async (scriptName) => {
+    try {
+      await axios.post(`/api/enqueue-script/${selectedDevice.mac_address}`, {
+        name: scriptName,
+      });
+      alert(`Script ${scriptName} enqueued for execution.`);
+    } catch (error) {
+      console.error("Error enqueuing script:", error);
+      alert(`Failed to enqueue the script ${scriptName}.`);
+    }
+  };
+
+  const deleteScript = async (scriptName) => {
+    try {
+      await axios.delete(
+        `/api/scripts/${selectedDevice.mac_address}/${scriptName}`
+      );
+      alert(`Script ${scriptName} deleted successfully.`);
+      await fetchDeviceScripts(selectedDevice.mac_address); // Refresh scripts for the current device
+    } catch (error) {
+      console.error("Error deleting script:", error);
+      alert(`Failed to delete the script ${scriptName}.`);
+    }
+  };
+
+  // Periodically fetch device data to update online status
+  useEffect(() => {
+    const interval = setInterval(async () => {
+      await fetchDevices();
+    }, 10000); // Fetch data every 10 seconds
+
+    return () => clearInterval(interval);
+  }, [fetchDevices]);
+
+  if (devices.length === 0) {
+    return (
+      <div>
+        <h2>Devices</h2>
+        <p className="no-device-text">no devices added</p>
+      </div>
+    );
+  }
   return (
     <div>
       <h2>Devices</h2>
@@ -88,6 +154,11 @@ function DevicesList({ devices, fetchDevices }) {
         {devices.map((device, index) => (
           <li key={index}>
             <div className="info">
+              <span
+                className={`status-indicator ${
+                  onlineStatus[device.mac_address] ? "online" : "offline"
+                }`}
+              ></span>
               <div>
                 <span>{device.emoji}</span>
               </div>
@@ -101,7 +172,7 @@ function DevicesList({ devices, fetchDevices }) {
                 onClick={() => openModal(device)}
                 className="code-icon-button"
               >
-                ⚙️
+                &lt;/&gt;
               </button>
               <button
                 onClick={() => removeDevice(device.mac_address)}
@@ -122,20 +193,20 @@ function DevicesList({ devices, fetchDevices }) {
       >
         <h2>Upload and Run Script on Device</h2>
         <p>Device: {selectedDevice && selectedDevice.name}</p>
-        <input type="file" onChange={handleFileChange} />
-        {availableScripts.length === 0 ? (
+        <input type="file" name="script" onChange={handleFileChange} />
+        {Object.keys(availableScripts).length === 0 ? (
           <p>No scripts available. Please upload a script.</p>
         ) : (
-          availableScripts.map((script, index) => (
+          Object.keys(availableScripts).map((scriptName, index) => (
             <ScriptComponent
               key={index}
-              scriptName={script.name} // Display script name
-              onDelete={() => console.log("Delete script")}
-              onRun={() => console.log("Run script")}
+              scriptName={scriptName}
+              onDelete={() => deleteScript(scriptName)}
+              onRun={() => runScript(scriptName)}
             />
           ))
         )}
-        <button onClick={handleUpload}>Upload and Execute</button>
+        <button onClick={handleUpload}>Upload</button>
       </Modal>
     </div>
   );
