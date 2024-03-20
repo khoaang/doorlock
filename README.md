@@ -82,7 +82,7 @@ Distributed under the MIT License. See `LICENSE` for more information.
 
 ## Contact 📬
 
-Your Name - your_email@gmail.com
+Your Name - khoan@berkeley.edu
 
 Project Link: [https://github.com/khoaang/doorlock](https://github.com/khoaang/doorlock)
 
