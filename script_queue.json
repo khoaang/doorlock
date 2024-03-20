@@ -1,8 +1,0 @@
-{
-    "00:1B:44:11:3A:B7": [
-        {
-            "name": "testScript.py",
-            "content": "print(\"hello world\")\n"
-        }
-    ]
-}
