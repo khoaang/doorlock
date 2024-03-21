@@ -28,7 +28,7 @@ function DevicesList({ devices, fetchDevices }) {
       const lastPingTimeMs = lastPingTime * 1000;
       console.log(currentTime, lastPingTimeMs);
       return currentTime - lastPingTimeMs < 20000;
-    };git
+    };
 
     // Update online status based on last ping time of each device
     const updatedOnlineStatus = {};

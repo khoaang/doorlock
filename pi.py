@@ -1,11 +1,13 @@
 import requests
 import time
 import subprocess
+import re
+import uuid
 
 SERVER_URL = "http://localhost:5000"  # Replace with your server URL
 # Replace with your device's MAC address
-DEVICE_MAC_ADDRESS = "00:1B:44:11:3A:B7"
-
+DEVICE_MAC_ADDRESS = ':'.join(re.findall('..', '%012x' % uuid.getnode()))
+print("Device running with MAC address: ", DEVICE_MAC_ADDRESS)
 
 def fetch_script_queue():
     try:
