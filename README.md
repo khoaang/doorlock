@@ -82,7 +82,7 @@ DoorLock is distributed under the MIT License, which allows you to use, modify, 
 
 ## Contact 📬
 
-Your Name - khoan@berkeley.edu
+Khoa Nguyen - khoan@berkeley.edu
 
 Project Link: [https://github.com/khoaang/doorlock](https://github.com/khoaang/doorlock)
 
