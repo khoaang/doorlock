@@ -1,97 +1,169 @@
-# DoorLock 🚪🔒
+# DoorLock IoT System
 
-Welcome to DoorLock, a modern and efficient way to manage your IoT devices. This project allows you to add devices, upload scripts to them, and manage a queue of scripts to be executed on each device.
+A complete, self-hosted IoT system for managing smart devices in your home network. Built with security, reliability, and ease of use in mind.
 
-## Features 🚀
+## Features
 
-- **Device Management**: Add and remove devices with ease. Each device is identified by its MAC address. 📱💻
-- **Script Management**: Upload scripts to devices and manage a queue of scripts to be executed on each device. 📄🔄
-- **Dark Mode**: A sleek dark mode for those late-night coding sessions. 🌙💡
-- **Real-time Updates**: The state of devices and scripts is updated in real-time. 🕒🔄
+- 🔐 Secure authentication and authorization
+- 📱 Modern, responsive web interface
+- 🌙 Dark/Light theme support
+- 🔄 Real-time updates via WebSocket
+- 📊 Device monitoring and management
+- 🤖 Automation support
+- 📜 Script management
+- 🔌 Multi-protocol support (MQTT, HTTP, etc.)
+- 🐳 Docker-based deployment
+- 📦 Easy installation
 
-## Getting Started 🏁
+## System Requirements
 
-### Prerequisites
+- Docker
+- Docker Compose
+- 2GB RAM (minimum)
+- 10GB disk space
+- Network access to your IoT devices
 
-- Node.js
-- Python
-- Flask
-- React
-- Raspberry Pi
+## Quick Start
 
-### Installation
+1. Clone the repository:
 
-1. Clone the repo
-   ```
-   git clone https://github.com/khoaang/doorlock.git
-   ```
-2. Install NPM packages
-   ```
-   npm install
-   ```
-3. Install Python packages
-   ```
-   pip install -r requirements.txt
+   ```bash
+   git clone https://github.com/yourusername/doorlock.git
+   cd doorlock
    ```
 
-### Raspberry Pi Setup 🍓
+2. Run the installation script:
 
-1. Transfer the `pi.py` script to your Raspberry Pi.
-2. Run the script using Python 3:
+   ```bash
+   chmod +x install.sh
+   ./install.sh
    ```
-   python3 pi.py
-   ```
-3. To have the script run on startup, add a cron job:
-   - Open the crontab file:
-     ```
-     crontab -e
-     ```
-   - Add the following line to the end of the file:
-     ```
-     @reboot python3 /path/to/pi.py &
-     ```
-   - Save and close the file. The script will now run on startup.
 
-## Usage 🎮
+3. Access the web interface at http://localhost:3000
 
-Start the Flask server:
+Default credentials:
 
-```
-python app.py
-```
+- Email: admin@doorlock.local
+- Password: admin123
 
-Start the React app:
+**Important**: Change these credentials after first login!
 
-```
+## Architecture
+
+The system consists of several components:
+
+- **Frontend**: React-based web interface
+- **Backend**: Flask API server
+- **Database**: PostgreSQL for data persistence
+- **Cache**: Redis for session management and caching
+- **MQTT Broker**: Mosquitto for IoT device communication
+
+## Development
+
+### Frontend Development
+
+```bash
+cd frontend
+npm install
 npm start
 ```
 
-## Contributing 🤝
+### Backend Development
 
-Contributions are what make the open-source community such an amazing place to learn, inspire, and create. Any contributions you make are **greatly appreciated**.
+```bash
+cd backend
+python -m venv venv
+source venv/bin/activate  # or `venv\Scripts\activate` on Windows
+pip install -r requirements.txt
+flask run
+```
 
-1. Fork the Project
-2. Create your Feature Branch (`git checkout -b feature/AmazingFeature`)
-3. Commit your Changes (`git commit -m 'Add some AmazingFeature'`)
-4. Push to the Branch (`git push origin feature/AmazingFeature`)
-5. Open a Pull Request
+## Configuration
 
-## License 📄
+### Environment Variables
 
-DoorLock is distributed under the MIT License, which allows you to use, modify, and distribute the software for both commercial and non-commercial purposes. See the [LICENSE](LICENSE) file for more information.
+Backend:
 
-## Contact 📬
+- `FLASK_ENV`: production/development
+- `DATABASE_URL`: PostgreSQL connection string
+- `REDIS_URL`: Redis connection string
+- `MQTT_BROKER_HOST`: MQTT broker hostname
+- `MQTT_BROKER_PORT`: MQTT broker port
 
-Khoa Nguyen - khoan@berkeley.edu
+Frontend:
 
-Project Link: [https://github.com/khoaang/doorlock](https://github.com/khoaang/doorlock)
+- `REACT_APP_API_URL`: Backend API URL
+- `REACT_APP_SOCKET_URL`: WebSocket server URL
 
-## Acknowledgements 🎉
+## Adding Devices
 
-- [React](https://reactjs.org/)
-- [Flask](https://flask.palletsprojects.com/)
-- [axios](https://github.com/axios/axios)
-- [Socket.IO](https://socket.io/)
-- [CORS](https://developer.mozilla.org/en-US/docs/Web/HTTP/CORS)
+1. Navigate to the Devices page
+2. Click "Add Device"
+3. Select the device type
+4. Configure device settings
+5. Test the connection
 
-Enjoy your journey with DoorLock! 🎈🎈🎈
+Supported device types:
+
+- MQTT devices
+- HTTP devices
+- Custom protocol devices (via plugins)
+
+## Security Considerations
+
+1. Change default credentials immediately
+2. Use HTTPS in production
+3. Configure firewall rules
+4. Enable MQTT authentication in production
+5. Regularly update system components
+
+## Backup and Recovery
+
+1. Database backup:
+
+   ```bash
+   docker-compose exec db pg_dump -U doorlock > backup.sql
+   ```
+
+2. Restore from backup:
+   ```bash
+   docker-compose exec -T db psql -U doorlock < backup.sql
+   ```
+
+## Troubleshooting
+
+1. Check logs:
+
+   ```bash
+   docker-compose logs -f [service_name]
+   ```
+
+2. Restart services:
+
+   ```bash
+   docker-compose restart [service_name]
+   ```
+
+3. Reset system:
+   ```bash
+   docker-compose down -v
+   ./install.sh
+   ```
+
+## Contributing
+
+1. Fork the repository
+2. Create a feature branch
+3. Commit your changes
+4. Push to the branch
+5. Create a Pull Request
+
+## License
+
+MIT License - see LICENSE file for details
+
+## Support
+
+- GitHub Issues: [Report a bug](https://github.com/yourusername/doorlock/issues)
+- Documentation: [Wiki](https://github.com/yourusername/doorlock/wiki)
+- Community: [Discussions](https://github.com/yourusername/doorlock/discussions)
